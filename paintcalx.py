@@ -26,33 +26,22 @@ def calculate_paint_volume(total_surface, door_window_surface, wall_type, coat_c
         'coefficient_used': coefficient
     }
 
-    # Test the function
-if __name__ == "__main__":
-    # Test case 1: Basic usage
-    result = calculate_paint_volume(
-        total_surface=100,
-        door_window_surface=10,
-        wall_type='lisse',
-        coat_count=2,
-        coverage=10
-    )
+def calculate_component_proportions(total_volume, proportions):
+    """
+    Calculate component volumes based on total paint volume and proportions.
     
-    print("Test 1 - Basic usage:")
-    print(f"Surface effective: {result['effective_surface']} m²")
-    print(f"Volume total: {result['total_volume']} L")
-    print(f"Coefficient utilisé: {result['coefficient_used']}")
+    Args:
+        total_volume (float): Total paint volume in liters
+        proportions (dict): Component proportions as percentages or ratios
+                          Example: {'base': 0.6, 'hardener': 0.3, 'pigment': 0.1}
     
-    # Test case 2: Custom coefficients
-    custom_coeffs = {'lisse': 1.05, 'granuleux': 1.2}
-    result2 = calculate_paint_volume(
-        total_surface=50,
-        door_window_surface=5,
-        wall_type='lisse',
-        coat_count=1,
-        coverage=8,
-        custom_coefficients=custom_coeffs
-    )
+    Returns:
+        dict: Component volumes in liters
+    """
+    component_volumes = {}
     
-    print("\nTest 2 - Custom coefficients:")
-    print(f"Surface effective: {result2['effective_surface']} m²")
-    print(f"Volume total: {result2['total_volume']} L")
+    for component, proportion in proportions.items():
+        volume = total_volume * proportion
+        component_volumes[component] = volume
+    
+    return component_volumes
