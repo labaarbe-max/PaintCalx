@@ -1,4 +1,4 @@
-from paintcalx import calculate_paint_volume, calculate_component_proportions
+from paintcalx import calculate_paint_volume, calculate_component_proportions, convert_units
   
   # Test the function
 if __name__ == "__main__":
@@ -53,4 +53,18 @@ if __name__ == "__main__":
         calculate_component_proportions(18.0, invalid_proportions)
     except ValueError as e:
         print(f"\nTest 5 - Invalid proportions:")
+        print(f"Error caught: {e}")
+
+            # Test case 6: Unit conversions
+    print(f"\nTest 6 - Unit conversions:")
+    print(f"18 L → mL: {convert_units(18, 'L', 'mL')} mL")
+    print(f"5000 mL → L: {convert_units(5000, 'mL', 'L')} L")
+    print(f"2.5 kg → g: {convert_units(2.5, 'kg', 'g')} g")
+    print(f"1500 g → kg: {convert_units(1500, 'g', 'kg')} kg");
+
+        # Test case 7: Invalid conversion
+    try:
+        convert_units(10, 'L', 'kg')  # Volume vers poids - impossible
+    except ValueError as e:
+        print(f"\nTest 7 - Invalid conversion:")
         print(f"Error caught: {e}")

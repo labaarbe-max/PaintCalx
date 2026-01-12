@@ -59,3 +59,38 @@ def calculate_component_proportions(total_volume, proportions):
         component_volumes[component] = round(volume, 2)
     
     return component_volumes
+
+def convert_units(value, from_unit, to_unit):
+    """
+    Convert values between different units.
+    
+    Args:
+        value (float): Value to convert
+        from_unit (str): Current unit ('L', 'mL', 'kg', 'g')
+        to_unit (str): Target unit ('L', 'mL', 'kg', 'g')
+    
+    Returns:
+        float: Converted value
+    
+    Raises:
+        ValueError: If units are incompatible or invalid
+    """
+    # Volume conversions
+    if from_unit == 'L' and to_unit == 'mL':
+        return value * 1000
+    elif from_unit == 'mL' and to_unit == 'L':
+        return value / 1000
+    
+    # Weight conversions
+    elif from_unit == 'kg' and to_unit == 'g':
+        return value * 1000
+    elif from_unit == 'g' and to_unit == 'kg':
+        return value / 1000
+    
+    # Same unit
+    elif from_unit == to_unit:
+        return value
+    
+    # Incompatible units
+    else:
+        raise ValueError(f"Cannot convert from {from_unit} to {to_unit}")
