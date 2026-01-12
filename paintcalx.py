@@ -1,9 +1,11 @@
 def calculate_paint_volume(total_surface, door_window_surface, wall_type, coat_count, coverage, custom_coefficients=None):
-    # Input validation
+    # Input validation - cas limites métier
     if total_surface <= 0:
         raise ValueError("Total surface must be positive")
     if door_window_surface < 0:
         raise ValueError("Door/window surface cannot be negative")
+    if door_window_surface > total_surface:
+        raise ValueError("Deduction surfaces cannot exceed total surface")
     if coat_count <= 0:
         raise ValueError("Number of coats must be positive")
     if coverage <= 0:
@@ -21,6 +23,10 @@ def calculate_paint_volume(total_surface, door_window_surface, wall_type, coat_c
     
     # Get the appropriate coefficient
     coefficient = coefficients.get(wall_type, 1.0)
+    
+    # Coefficient validation - plage autorisée 0.8 → 1.5
+    if coefficient < 0.8 or coefficient > 1.5:
+        raise ValueError(f"Coefficient {coefficient} out of allowed range (0.8 - 1.5)")
     
     # Calculate effective surface
     effective_surface = (total_surface - door_window_surface) * coefficient
@@ -47,10 +53,10 @@ def calculate_component_proportions(total_volume, proportions):
     Returns:
         dict: Component volumes in liters
     """
-    # Validate proportions sum
+    # Validation avec tolérance réaliste 0.99 → 1.01
     proportion_sum = sum(proportions.values())
-    if abs(proportion_sum - 1.0) > 0.01:
-        raise ValueError(f"Proportions must sum to 1.0 (current: {proportion_sum})")
+    if not (0.99 <= proportion_sum <= 1.01):
+        raise ValueError(f"Proportions must sum to 1.0 ± 0.01 (current: {proportion_sum:.3f})")
     
     component_volumes = {}
     

@@ -68,3 +68,28 @@ if __name__ == "__main__":
     except ValueError as e:
         print(f"\nTest 7 - Invalid conversion:")
         print(f"Error caught: {e}")
+
+        # Test case 8: Surface deduction exceeds total surface
+    try:
+        calculate_paint_volume(50, 60, 'lisse', 2, 10)  # door_window > total_surface
+    except ValueError as e:
+        print(f"\nTest 8 - Surface deduction exceeds total:")
+        print(f"Error caught: {e}")
+
+    # Test case 9: Coefficient out of range
+    try:
+        custom_coeffs = {'lisse': 2.0}  # Hors plage 0.8-1.5
+        calculate_paint_volume(100, 10, 'lisse', 2, 10, custom_coeffs)
+    except ValueError as e:
+        print(f"\nTest 9 - Coefficient out of range:")
+        print(f"Error caught: {e}")
+
+    # Test case 10: Improved proportion tolerance
+    try:
+        # Test avec 1.005 (doit passer)
+        good_proportions = {'base': 0.5, 'hardener': 0.3, 'pigment': 0.205}  # Total = 1.005
+        result = calculate_component_proportions(18.0, good_proportions)
+        print(f"\nTest 10 - Improved tolerance (1.005):")
+        print(f"Success: {result}")
+    except ValueError as e:
+        print(f"Error: {e}")
