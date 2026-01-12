@@ -39,3 +39,18 @@ if __name__ == "__main__":
     print(f"Volume total: {result['total_volume']} L")
     for component, volume in components.items():
         print(f"{component}: {volume} L")
+
+        # Test case 4: Error handling
+    try:
+        calculate_paint_volume(-10, 5, 'lisse', 2, 10)
+    except ValueError as e:
+        print(f"\nTest 4 - Error handling:")
+        print(f"Error caught: {e}")
+
+        # Test case 5: Invalid proportions
+    try:
+        invalid_proportions = {'base': 0.7, 'hardener': 0.3, 'pigment': 0.1}  # Total = 1.1
+        calculate_component_proportions(18.0, invalid_proportions)
+    except ValueError as e:
+        print(f"\nTest 5 - Invalid proportions:")
+        print(f"Error caught: {e}")

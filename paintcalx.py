@@ -1,6 +1,15 @@
 def calculate_paint_volume(total_surface, door_window_surface, wall_type, coat_count, coverage, custom_coefficients=None):
-
-        # Default coefficients
+    # Input validation
+    if total_surface <= 0:
+        raise ValueError("Total surface must be positive")
+    if door_window_surface < 0:
+        raise ValueError("Door/window surface cannot be negative")
+    if coat_count <= 0:
+        raise ValueError("Number of coats must be positive")
+    if coverage <= 0:
+        raise ValueError("Coverage must be positive")
+    
+    # Default coefficients
     default_coefficients = {
         'lisse': 1.0,
         'granuleux': 1.15,
@@ -19,10 +28,10 @@ def calculate_paint_volume(total_surface, door_window_surface, wall_type, coat_c
     # Calculate total paint volume needed
     total_volume = effective_surface * coat_count / coverage
     
-    # Return results as dictionary
+    # Return results as dictionary with rounded values
     return {
-        'effective_surface': effective_surface,
-        'total_volume': total_volume,
+        'effective_surface': round(effective_surface, 2),
+        'total_volume': round(total_volume, 2),
         'coefficient_used': coefficient
     }
 
@@ -38,10 +47,15 @@ def calculate_component_proportions(total_volume, proportions):
     Returns:
         dict: Component volumes in liters
     """
+    # Validate proportions sum
+    proportion_sum = sum(proportions.values())
+    if abs(proportion_sum - 1.0) > 0.01:
+        raise ValueError(f"Proportions must sum to 1.0 (current: {proportion_sum})")
+    
     component_volumes = {}
     
     for component, proportion in proportions.items():
         volume = total_volume * proportion
-        component_volumes[component] = volume
+        component_volumes[component] = round(volume, 2)
     
     return component_volumes
